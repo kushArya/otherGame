@@ -1,0 +1,74 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Sprites/Player/Jump4.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Player/Jump1.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Player/Jump3.png" type="Texture" id=3]
+[ext_resource path="res://KinematicBody2D.gd" type="Script" id=4]
+[ext_resource path="res://GunAim.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/Player/Run7.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Player/Idle0.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Player/Run2.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Player/Run3.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Player/Jump0.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Player/Run1.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Player/Run4.png" type="Texture" id=13]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 14.0
+height = 23.9376
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 11 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "fall",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 7 ), ExtResource( 13 ) ],
+"loop": true,
+"name": "run",
+"speed": 10.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 15.1927
+height = 23.649
+
+[node name="player" type="KinematicBody2D"]
+collision_layer = 5
+collision_mask = 2147483653
+script = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 4 )
+shape = SubResource( 1 )
+one_way_collision_margin = 0.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 2, 2 )
+
+[node name="Sprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+animation = "idle"
+playing = true
+
+[node name="GunAim" parent="." instance=ExtResource( 5 )]
+
+[node name="hitbox" type="Area2D" parent="."]
+collision_mask = 2147483652
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+position = Vector2( 0, 4 )
+shape = SubResource( 3 )
+[connection signal="area_shape_entered" from="hitbox" to="." method="_on_hitbox_area_shape_entered"]

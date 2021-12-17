@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Gun.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/US.png" type="Texture" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=4]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 7.74852
+height = 10.1948
+
+[sub_resource type="SegmentShape2D" id=2]
+a = Vector2( 0.219952, -90.53 )
+b = Vector2( -0.091013, 77.0553 )
+
+[node name="GunAim" type="Area2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource( 1 )
+projectile_speed = -850
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 66.0796, 2.08905, 27.273, 10.0538 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.0496063, -0.0992126 )
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+shape = SubResource( 1 )
+
+[node name="Shield" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield"]
+position = Vector2( 25, 0 )
+rotation = 0.00174533
+scale = Vector2( 1, 0.75 )
+shape = SubResource( 2 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="Shield"]
+position = Vector2( 25.4326, -5.75787 )
+scale = Vector2( 0.0495326, 2.01535 )
+texture = ExtResource( 4 )
